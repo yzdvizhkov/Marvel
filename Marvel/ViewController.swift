@@ -10,13 +10,14 @@ import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    private var tableView: UITableView = UITableView(frame: .zero)
+    private var tableView: UITableView!
 
     var items: [String] = ["Black Widow", "Black Panther", "Spider Man", "The Flash", "Iron Man", "Loki", "Shazam", "Captain America", "The Wasp", "Ant-Man"]
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+         super.viewDidLoad()
          // Do any additional setup after loading the view.
+         tableView = UITableView(frame: .zero)
          tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
          tableView.delegate = self
          tableView.dataSource = self
