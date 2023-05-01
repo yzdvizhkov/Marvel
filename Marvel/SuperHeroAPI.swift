@@ -11,16 +11,16 @@ class SuperHeroAPI {
     
     static func getSuperHeroes() -> [SuperHero]{
         let heroes = [
-            SuperHero(name: "Kelly Goodwin", description: "Designer"),
-            SuperHero(name: "Mohammad Hussain", description: "SEO Specialist"),
-            SuperHero(name: "John Young", description: "Interactive Designer"),
-            SuperHero(name: "Tamilarasi Mohan", description: "Architect"),
-            SuperHero(name: "Kim Yu", description: "Economist"),
-            SuperHero(name: "Derek Fowler", description: "Web Strategist"),
-            SuperHero(name: "Shreya Nithin", description: "Product Designer"),
-            SuperHero(name: "Emily Adams", description: "Editor"),
-            SuperHero(name: "Aabidah Amal", description: "Creative Director"),
-            SuperHero(name: "Aabidah Amal", description: "Creative Director")
+            SuperHero(name: "Iron-Man", description: "Genius. Billionaire. Playboy. Philanthropist."),
+            SuperHero(name: "Aquaman", description: "Defender of the underwater kingdom of Atlantis"),
+            SuperHero(name: "The Atom", description: "His main ability is to shrink in size"),
+            SuperHero(name: "Batgirl", description: "Member of the Batman Family"),
+            SuperHero(name: "Batman", description: "Superhero protector of Gotham City"),
+            SuperHero(name: "Captain America", description: "Fights for American ideals"),
+            SuperHero(name: "Catwoman", description: "Dangerous, clever and resourceful fighter,"),
+            SuperHero(name: "Superman", description: "Fights evil with the aid of extraordinary abilities"),
+            SuperHero(name: "Doctor Strange", description: "the mightiest magician in the cosmos"),
+            SuperHero(name: "Hellboy", description: "large, muscular, red-skinned demon")
         ]
         return heroes
     }
