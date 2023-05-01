@@ -12,27 +12,30 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     private var tableView: UITableView!
 
-    var items: [String] = ["Black Widow", "Black Panther", "Spider Man", "The Flash", "Iron Man", "Loki", "Shazam", "Captain America", "The Wasp", "Ant-Man"]
+    private let superHeroes = SuperHeroAPI.getSuperHeroes() // model
 
     override func viewDidLoad() {
          super.viewDidLoad()
          // Do any additional setup after loading the view.
          tableView = UITableView(frame: .zero)
-         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
          tableView.delegate = self
          tableView.dataSource = self
          view.addSubview(tableView)
          tableView.snp.makeConstraints { (make) in make.edges.equalToSuperview()}
+        self.tableView.rowHeight = 80
+    
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            cell.textLabel?.text = items[indexPath.row]
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
+        cell.superHero = superHeroes[indexPath.row]
+        return cell
         }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return items.count
+            return superHeroes.count
         }
+    
 }
 
