@@ -38,7 +38,6 @@ class CustomTableViewCell: UITableViewCell {
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
-        
         return label
     }()
     
@@ -48,6 +47,9 @@ class CustomTableViewCell: UITableViewCell {
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
+        label.numberOfLines = 1
+        label.adjustsFontSizeToFitWidth = false
+        label.lineBreakMode = .byTruncatingTail
         return label
     }()
     
@@ -71,7 +73,7 @@ class CustomTableViewCell: UITableViewCell {
         containerView.snp.makeConstraints { make in
             make.height.equalTo(72)
             make.leading.equalTo(10)
-            make.trailing.equalTo(-10 )
+            make.trailing.equalTo(-10)
         }
         
         superHeroImageView.snp.makeConstraints { make in
@@ -85,11 +87,14 @@ class CustomTableViewCell: UITableViewCell {
         nameLabel.snp.makeConstraints { make in
             make.top.equalTo(containerView.snp.top).offset(15)
             make.leading.equalTo(superHeroImageView.snp.trailing).offset(15)
+            make.trailing.equalTo(containerView.snp.trailing)
+            
         }
         
         descriptionLabel.snp.makeConstraints { make in
             make.bottom.equalTo(containerView.snp.bottom).offset(-15)
             make.leading.equalTo(nameLabel.snp.leading)
+            make.trailing.equalTo(containerView.snp.trailing)
         }
     }
     

@@ -11,7 +11,7 @@ class SuperHeroAPI {
     
     static func getSuperHeroes() -> [SuperHero]{
         let heroes = [
-            SuperHero(name: "Iron-Man", description: "Genius. Billionaire. Playboy. Philanthropist."),
+            SuperHero(name: "Iron-Man", description: "Genius. Billionaire. Playboy. Philanthropist"),
             SuperHero(name: "Aquaman", description: "Defender of the underwater kingdom of Atlantis"),
             SuperHero(name: "The Atom", description: "His main ability is to shrink in size"),
             SuperHero(name: "Batgirl", description: "Member of the Batman Family"),
