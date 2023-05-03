@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import SnapKit
 class CustomTableViewCell: UITableViewCell {
     
     var superHero:SuperHero? {
@@ -30,7 +30,7 @@ class CustomTableViewCell: UITableViewCell {
         img.backgroundColor = .yellow
         img.clipsToBounds = true
         return img
-        }()
+    }()
     
     let nameLabel:UILabel = {
         let label = UILabel()
@@ -38,7 +38,7 @@ class CustomTableViewCell: UITableViewCell {
         label.textColor = .white
         label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
-
+        
         return label
     }()
     
@@ -56,7 +56,7 @@ class CustomTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false // tell iOS not to create Auto Layout constraints automatically
         view.clipsToBounds = true // this will make sure its children do not go out of the boundary
         return view
-       }()
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -65,25 +65,32 @@ class CustomTableViewCell: UITableViewCell {
         containerView.addSubview(nameLabel)
         containerView.addSubview(descriptionLabel)
         self.contentView.addSubview(containerView)
-
+        
         containerView.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
-
-        containerView.leadingAnchor.constraint(equalTo:self.leadingAnchor, constant: 10).isActive = true
-        containerView.trailingAnchor.constraint(equalTo:self.trailingAnchor, constant: -10).isActive = true
-        containerView.heightAnchor.constraint(equalToConstant:72).isActive = true
-
-        superHeroImageView.heightAnchor.constraint(equalToConstant:42).isActive = true
-        superHeroImageView.widthAnchor.constraint(equalToConstant:42).isActive = true
-        superHeroImageView.leadingAnchor.constraint(equalTo:self.containerView.leadingAnchor, constant: 16).isActive = true
-        superHeroImageView.topAnchor.constraint(equalTo:self.containerView.topAnchor, constant:15).isActive = true
-        superHeroImageView.bottomAnchor.constraint(equalTo:self.containerView.bottomAnchor, constant:-15).isActive = true
-
-        nameLabel.topAnchor.constraint(equalTo:self.containerView.topAnchor, constant:15).isActive = true
-        nameLabel.leadingAnchor.constraint(equalTo:self.superHeroImageView.trailingAnchor, constant:15).isActive = true
-
-        descriptionLabel.bottomAnchor.constraint(equalTo:self.containerView.bottomAnchor, constant:-15).isActive = true
-        descriptionLabel.leadingAnchor.constraint(equalTo:self.nameLabel.leadingAnchor).isActive = true
-    
+        
+        containerView.snp.makeConstraints { make in
+            make.height.equalTo(72)
+            make.leading.equalTo(10)
+            make.trailing.equalTo(-10 )
+        }
+        
+        superHeroImageView.snp.makeConstraints { make in
+            make.height.equalTo(42)
+            make.width.equalTo(superHeroImageView.snp.height)
+            make.leading.equalTo(containerView.snp.leading).offset(16)
+            make.top.equalTo(containerView.snp.top).offset(15)
+            make.bottom.equalTo(containerView.snp.bottom).offset(-15)
+        }
+        
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalTo(containerView.snp.top).offset(15)
+            make.leading.equalTo(superHeroImageView.snp.trailing).offset(15)
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(containerView.snp.bottom).offset(-15)
+            make.leading.equalTo(nameLabel.snp.leading)
+        }
     }
     
     
