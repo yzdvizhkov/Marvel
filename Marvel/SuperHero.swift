@@ -8,6 +8,6 @@
 import UIKit
 
 struct SuperHero {
-       let name:String?
-       let description:String?
+    let name: String?
+    let description: String?
 }

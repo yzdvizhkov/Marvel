@@ -17,6 +17,8 @@
 		32D5767A29FC5A580013C09C /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D5767929FC5A580013C09C /* CustomTableViewCell.swift */; };
 		32D5767C29FC5C2B0013C09C /* SuperHero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D5767B29FC5C2B0013C09C /* SuperHero.swift */; };
 		32D5767E29FC5FFF0013C09C /* SuperHeroAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D5767D29FC5FFF0013C09C /* SuperHeroAPI.swift */; };
+		32F914C02A05163C0090EE8C /* SwiftFormat in Frameworks */ = {isa = PBXBuildFile; productRef = 32F914BF2A05163C0090EE8C /* SwiftFormat */; };
+		32F914C42A0533490090EE8C /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = 32F914C32A0533490090EE8C /* .swiftformat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +33,7 @@
 		32D5767929FC5A580013C09C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		32D5767B29FC5C2B0013C09C /* SuperHero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperHero.swift; sourceTree = "<group>"; };
 		32D5767D29FC5FFF0013C09C /* SuperHeroAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperHeroAPI.swift; sourceTree = "<group>"; };
+		32F914C32A0533490090EE8C /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +42,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				329A61A529FA62CB00BBAEC1 /* SnapKit in Frameworks */,
+				32F914C02A05163C0090EE8C /* SwiftFormat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,6 +52,7 @@
 		327AE3E329FA4D1C00874B0A = {
 			isa = PBXGroup;
 			children = (
+				32F914C32A0533490090EE8C /* .swiftformat */,
 				327AE3EE29FA4D1C00874B0A /* Marvel */,
 				327AE3ED29FA4D1C00874B0A /* Products */,
 			);
@@ -88,6 +93,7 @@
 				327AE3E829FA4D1C00874B0A /* Sources */,
 				327AE3E929FA4D1C00874B0A /* Frameworks */,
 				327AE3EA29FA4D1C00874B0A /* Resources */,
+				32F914C12A051B0D0090EE8C /* SwiftFormat */,
 			);
 			buildRules = (
 			);
@@ -96,6 +102,7 @@
 			name = Marvel;
 			packageProductDependencies = (
 				329A61A429FA62CB00BBAEC1 /* SnapKit */,
+				32F914BF2A05163C0090EE8C /* SwiftFormat */,
 			);
 			productName = Marvel;
 			productReference = 327AE3EC29FA4D1C00874B0A /* Marvel.app */;
@@ -127,6 +134,7 @@
 			mainGroup = 327AE3E329FA4D1C00874B0A;
 			packageReferences = (
 				329A61A329FA62CB00BBAEC1 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				32F914BE2A05163C0090EE8C /* XCRemoteSwiftPackageReference "SwiftFormat" */,
 			);
 			productRefGroup = 327AE3ED29FA4D1C00874B0A /* Products */;
 			projectDirPath = "";
@@ -142,6 +150,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32F914C42A0533490090EE8C /* .swiftformat in Resources */,
 				327AE3FC29FA4D1E00874B0A /* LaunchScreen.storyboard in Resources */,
 				327AE3F929FA4D1E00874B0A /* Assets.xcassets in Resources */,
 				327AE3F729FA4D1C00874B0A /* Main.storyboard in Resources */,
@@ -149,6 +158,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		32F914C12A051B0D0090EE8C /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftformat >/dev/null; then\n  swiftformat .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		327AE3E829FA4D1C00874B0A /* Sources */ = {
@@ -386,6 +416,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		32F914BE2A05163C0090EE8C /* XCRemoteSwiftPackageReference "SwiftFormat" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nicklockwood/SwiftFormat";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -393,6 +431,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 329A61A329FA62CB00BBAEC1 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		32F914BF2A05163C0090EE8C /* SwiftFormat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 32F914BE2A05163C0090EE8C /* XCRemoteSwiftPackageReference "SwiftFormat" */;
+			productName = SwiftFormat;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

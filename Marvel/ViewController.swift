@@ -9,33 +9,29 @@ import SnapKit
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
     private var tableView: UITableView!
 
     private let superHeroes = SuperHeroAPI.getSuperHeroes() // model
 
     override func viewDidLoad() {
-         super.viewDidLoad()
-         // Do any additional setup after loading the view.
-         tableView = UITableView(frame: .zero)
-         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
-         tableView.delegate = self
-         tableView.dataSource = self
-         view.addSubview(tableView)
-         tableView.snp.makeConstraints { (make) in make.edges.equalToSuperview()}
-        self.tableView.rowHeight = 80
-    
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+        tableView = UITableView(frame: .zero)
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.delegate = self
+        tableView.dataSource = self
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in make.edges.equalToSuperview() }
+        tableView.rowHeight = 80
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
         cell.superHero = superHeroes[indexPath.row]
         return cell
-        }
+    }
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return superHeroes.count
-        }
-    
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        superHeroes.count
+    }
 }
-
