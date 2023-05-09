@@ -27,11 +27,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        cell.superHero = superHeroes[indexPath.row]
+        cell.setupModel(superHero: superHeroes[indexPath.row])
         return cell
     }
 
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         superHeroes.count
+    }
+
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        let superHero = superHeroes[indexPath.row]
+        let heroDetailsVC = HeroDetailsViewController(superHero: superHero)
+        navigationController?.pushViewController(heroDetailsVC, animated: true)
     }
 }

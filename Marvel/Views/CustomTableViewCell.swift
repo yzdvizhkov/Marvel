@@ -5,21 +5,18 @@
 //  Created by Юрій Здвіжков on 28.04.2023.
 //
 
-import Foundation
 import SnapKit
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-    var superHero: SuperHero? {
-        didSet {
-            guard let superHeroItem = superHero else { return }
-            if let name = superHeroItem.name {
-                superHeroImageView.image = UIImage(named: name)
-                nameLabel.text = " \(name) "
-            }
-            if let description = superHeroItem.description {
-                descriptionLabel.text = " \(description) "
-            }
+    func setupModel(superHero: SuperHero?) {
+        guard let superHeroItem = superHero else { return }
+        if let name = superHeroItem.name {
+            superHeroImageView.image = UIImage(named: superHero?.name ?? "")
+            nameLabel.text = " \(name) "
+        }
+        if let description = superHeroItem.description {
+            descriptionLabel.text = " \(description) "
         }
     }
 
@@ -57,6 +54,7 @@ class CustomTableViewCell: UITableViewCell {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false // tell iOS not to create Auto Layout constraints automatically
         view.clipsToBounds = true // this will make sure its children do not go out of the boundary
+        view.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         return view
     }()
 
@@ -67,8 +65,6 @@ class CustomTableViewCell: UITableViewCell {
         containerView.addSubview(nameLabel)
         containerView.addSubview(descriptionLabel)
         contentView.addSubview(containerView)
-
-        containerView.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
 
         containerView.snp.makeConstraints { make in
             make.height.equalTo(72)
@@ -95,6 +91,15 @@ class CustomTableViewCell: UITableViewCell {
             make.leading.equalTo(nameLabel.snp.leading)
             make.trailing.equalTo(containerView.snp.trailing)
         }
+    }
+
+    func containerViewConstraints() -> UIView {
+        containerView.snp.makeConstraints { make in
+            make.height.equalTo(72)
+            make.leading.equalTo(10)
+            make.trailing.equalTo(-10)
+        }
+        return containerView
     }
 
     required init?(coder aDecoder: NSCoder) {

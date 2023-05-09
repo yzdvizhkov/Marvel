@@ -19,6 +19,7 @@
 		32D5767E29FC5FFF0013C09C /* SuperHeroAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D5767D29FC5FFF0013C09C /* SuperHeroAPI.swift */; };
 		32F914C02A05163C0090EE8C /* SwiftFormat in Frameworks */ = {isa = PBXBuildFile; productRef = 32F914BF2A05163C0090EE8C /* SwiftFormat */; };
 		32F914C42A0533490090EE8C /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = 32F914C32A0533490090EE8C /* .swiftformat */; };
+		32F915602A08248F0090EE8C /* HeroDetalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F9155F2A08248F0090EE8C /* HeroDetalsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		32D5767B29FC5C2B0013C09C /* SuperHero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperHero.swift; sourceTree = "<group>"; };
 		32D5767D29FC5FFF0013C09C /* SuperHeroAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuperHeroAPI.swift; sourceTree = "<group>"; };
 		32F914C32A0533490090EE8C /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
+		32F9155F2A08248F0090EE8C /* HeroDetalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroDetalsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,18 +71,43 @@
 		327AE3EE29FA4D1C00874B0A /* Marvel */ = {
 			isa = PBXGroup;
 			children = (
+				32F9155E2A0821490090EE8C /* Controller */,
+				32F9155D2A0820880090EE8C /* Model */,
+				32F9155C2A0820460090EE8C /* Views */,
 				327AE3EF29FA4D1C00874B0A /* AppDelegate.swift */,
 				327AE3F129FA4D1C00874B0A /* SceneDelegate.swift */,
-				327AE3F329FA4D1C00874B0A /* ViewController.swift */,
 				327AE3F529FA4D1C00874B0A /* Main.storyboard */,
 				327AE3F829FA4D1E00874B0A /* Assets.xcassets */,
 				327AE3FA29FA4D1E00874B0A /* LaunchScreen.storyboard */,
 				327AE3FD29FA4D1E00874B0A /* Info.plist */,
+			);
+			path = Marvel;
+			sourceTree = "<group>";
+		};
+		32F9155C2A0820460090EE8C /* Views */ = {
+			isa = PBXGroup;
+			children = (
 				32D5767929FC5A580013C09C /* CustomTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		32F9155D2A0820880090EE8C /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				32D5767D29FC5FFF0013C09C /* SuperHeroAPI.swift */,
 				32D5767B29FC5C2B0013C09C /* SuperHero.swift */,
 			);
-			path = Marvel;
+			path = Model;
+			sourceTree = "<group>";
+		};
+		32F9155E2A0821490090EE8C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				327AE3F329FA4D1C00874B0A /* ViewController.swift */,
+				32F9155F2A08248F0090EE8C /* HeroDetalsViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +218,7 @@
 				32D5767A29FC5A580013C09C /* CustomTableViewCell.swift in Sources */,
 				32D5767E29FC5FFF0013C09C /* SuperHeroAPI.swift in Sources */,
 				327AE3F229FA4D1C00874B0A /* SceneDelegate.swift in Sources */,
+				32F915602A08248F0090EE8C /* HeroDetalsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
