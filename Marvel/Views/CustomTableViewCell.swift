@@ -9,15 +9,30 @@ import SnapKit
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
+    let imageDownloader = ImageDownloader()
+
     func setupModel(result: CharactersResult?) {
         guard let superHeroItem = result else { return }
         if let name = superHeroItem.name {
-            superHeroImageView.image = UIImage(named: result?.name ?? "")
             nameLabel.text = " \(name) "
+            superHeroImageView.image = UIImage(named: name)
         }
         if let description = superHeroItem.description {
             descriptionLabel.text = " \(description) "
         }
+        if let url = imageUrlString(result: superHeroItem) {
+            imageDownloader.downloadImageData(for: url, String: { data, _ in
+                if data != nil {
+                    self.superHeroImageView.image = UIImage(data: data!)
+                }
+            })
+        }
+    }
+
+    func imageUrlString(result: CharactersResult) -> String? {
+        let path = result.thumbnail?.path ?? ""
+        let ext = result.thumbnail?.ext ?? ""
+        return "\(path).\(ext)"
     }
 
     let superHeroImageView: UIImageView = {

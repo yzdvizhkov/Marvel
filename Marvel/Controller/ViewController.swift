@@ -12,6 +12,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var tableView: UITableView!
 
     private var charactersResults: [CharactersResult] = []
+    let imageDownloader = ImageDownloader()
 
     var marvelApiManager = MarvelApiManager()
 
