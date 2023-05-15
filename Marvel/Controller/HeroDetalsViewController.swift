@@ -8,17 +8,17 @@
 import UIKit
 
 class HeroDetailsViewController: UIViewController {
-    var superHero: SuperHero?
+    var result: CharactersResult?
 
-    init(superHero: SuperHero?) {
-        self.superHero = superHero
+    init(result: CharactersResult?) {
+        self.result = result
         super.init(nibName: nil, bundle: nil)
     }
 
     lazy var myLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = superHero?.name
+        label.text = result?.name
         label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()

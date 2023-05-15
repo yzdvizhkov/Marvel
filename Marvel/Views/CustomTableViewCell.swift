@@ -9,10 +9,10 @@ import SnapKit
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-    func setupModel(superHero: SuperHero?) {
-        guard let superHeroItem = superHero else { return }
+    func setupModel(result: CharactersResult?) {
+        guard let superHeroItem = result else { return }
         if let name = superHeroItem.name {
-            superHeroImageView.image = UIImage(named: superHero?.name ?? "")
+            superHeroImageView.image = UIImage(named: result?.name ?? "")
             nameLabel.text = " \(name) "
         }
         if let description = superHeroItem.description {

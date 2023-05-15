@@ -4,7 +4,7 @@
 //
 //  Created by Юрій Здвіжков on 28.04.2023.
 //
-// alamofire
+import Alamofire
 import Foundation
 
 class SuperHeroAPI {
