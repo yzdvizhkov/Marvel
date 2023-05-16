@@ -6,6 +6,7 @@
 //
 
 import Alamofire
+import AlamofireImage
 import Foundation
 
 class MarvelApiManager {
@@ -14,16 +15,22 @@ class MarvelApiManager {
     private let HASH = "d7383b12bd32ebe70a6fa0d12f1ba6ce"
     typealias Response<T> = (_ result: AFResult<T>) -> Void
 
-    func getCharacters(completionHandler: @escaping (Characters?) -> Void) {
+    func getCharacters(completionHandler: @escaping (Result<Characters, AFError>) -> Void) {
         performRequest(completion: completionHandler)
     }
 
-    func performRequest(completion: @escaping (Characters?) -> Void) {
+    func performRequest(completion: @escaping (Result<Characters, AFError>) -> Void) {
         let path = "https://gateway.marvel.com/v1/public/characters?ts=%@&apikey=%@&hash=%@"
         let urlPath = String(format: path, TS, API_KEY, HASH)
-        let charactersData = AF.request(urlPath, method: .get).responseDecodable(of: Characters.self, queue: .main, decoder: JSONDecoder(), completionHandler: { response in
+        AF.request(urlPath, method: .get).responseDecodable(of: Characters.self, queue: .main, decoder: JSONDecoder(), completionHandler: { response in
+            completion(response.result)
+        })
+    }
+
+    func downloadImageData(for urlString: String, completion: @escaping (Data?) -> Void) {
+        AF.request(urlString, method: .get).responseData(completionHandler: { response in
             switch response.result {
-            case let .success(data as Characters):
+            case let .success(data as Data):
                 completion(data)
             case let .failure(error):
                 completion(nil)

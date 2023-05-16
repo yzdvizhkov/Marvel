@@ -5,33 +5,37 @@
 //  Created by Юрій Здвіжков on 28.04.2023.
 //
 
+import Alamofire
+import AlamofireImage
 import SnapKit
 import UIKit
 
 class CustomTableViewCell: UITableViewCell {
-    let imageDownloader = ImageDownloader()
+    let marvelApiManager = MarvelApiManager()
 
     func setupModel(result: CharactersResult?) {
-        guard let superHeroItem = result else { return }
-        if let name = superHeroItem.name {
+        guard let charactersResult = result else { return }
+        if let name = charactersResult.name {
             nameLabel.text = " \(name) "
             superHeroImageView.image = UIImage(named: name)
         }
-        if let description = superHeroItem.description {
+        if let description = charactersResult.description {
             descriptionLabel.text = " \(description) "
         }
-        if let url = imageUrlString(result: superHeroItem) {
-            imageDownloader.downloadImageData(for: url, String: { data, _ in
-                if data != nil {
-                    self.superHeroImageView.image = UIImage(data: data!)
-                }
+        if let url = imageUrlString(result: charactersResult) {
+            marvelApiManager.downloadImageData(for: url, completion: {
+                [weak self] response in
+                guard case let res as Data = response else { return }
+                self?.superHeroImageView.image = UIImage(data: res)
             })
         }
     }
 
     func imageUrlString(result: CharactersResult) -> String? {
-        let path = result.thumbnail?.path ?? ""
-        let ext = result.thumbnail?.ext ?? ""
+        guard
+            let path = result.thumbnail?.path,
+            let ext = result.thumbnail?.ext
+        else { return nil }
         return "\(path).\(ext)"
     }
 

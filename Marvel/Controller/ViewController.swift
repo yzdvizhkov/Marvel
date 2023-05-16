@@ -12,7 +12,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private var tableView: UITableView!
 
     private var charactersResults: [CharactersResult] = []
-    let imageDownloader = ImageDownloader()
 
     var marvelApiManager = MarvelApiManager()
 
@@ -26,11 +25,24 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.snp.makeConstraints { make in make.edges.equalToSuperview() }
         tableView.rowHeight = 80
 
-        marvelApiManager.getCharacters {
-            [weak self] response in
-            guard case let res as Characters = response else { return }
-            self?.charactersResults = res.charactersData.charactersResults
-            self?.tableView.reloadData()
+        getCharacters()
+//        marvelApiManager.getCharacters {
+//            [weak self] response in
+//            guard case let res as Characters = response else { return }
+//            self?.charactersResults = res.charactersData.charactersResults
+//            self?.tableView.reloadData()
+//        }
+    }
+    
+    func getCharacters() {
+        marvelApiManager.getCharacters { [weak self] result in
+            switch result {
+            case let .success(characters):
+                self?.charactersResults = characters.charactersData.charactersResults
+                self?.tableView.reloadData()
+            case let .failure(error):
+                debugPrint(error)
+            }
         }
     }
 
