@@ -26,14 +26,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.rowHeight = 80
 
         getCharacters()
-//        marvelApiManager.getCharacters {
-//            [weak self] response in
-//            guard case let res as Characters = response else { return }
-//            self?.charactersResults = res.charactersData.charactersResults
-//            self?.tableView.reloadData()
-//        }
     }
-    
+
     func getCharacters() {
         marvelApiManager.getCharacters { [weak self] result in
             switch result {
@@ -59,7 +53,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         let result = charactersResults[indexPath.row]
-        let heroDetailsVC = HeroDetailsViewController(result: result)
-        navigationController?.pushViewController(heroDetailsVC, animated: true)
+        let rootVC = HeroDetailsViewController(result: result)
+        let navVC = UINavigationController(rootViewController: rootVC)
+        present(navVC, animated: true)
     }
 }
