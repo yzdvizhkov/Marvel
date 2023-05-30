@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		32556D532A1B7DA800399765 /* NetworkClientLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32556D522A1B7DA800399765 /* NetworkClientLogger.swift */; };
 		327AE3F029FA4D1C00874B0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AE3EF29FA4D1C00874B0A /* AppDelegate.swift */; };
 		327AE3F229FA4D1C00874B0A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AE3F129FA4D1C00874B0A /* SceneDelegate.swift */; };
 		327AE3F429FA4D1C00874B0A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AE3F329FA4D1C00874B0A /* ViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		32556D522A1B7DA800399765 /* NetworkClientLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientLogger.swift; sourceTree = "<group>"; };
 		327AE3EC29FA4D1C00874B0A /* Marvel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marvel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		327AE3EF29FA4D1C00874B0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		327AE3F129FA4D1C00874B0A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				32F9156B2A0BBABD0090EE8C /* MarvelApiManager.swift */,
+				32556D522A1B7DA800399765 /* NetworkClientLogger.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32556D532A1B7DA800399765 /* NetworkClientLogger.swift in Sources */,
 				32F9156C2A0BBABD0090EE8C /* MarvelApiManager.swift in Sources */,
 				32F915692A0BB37C0090EE8C /* Characters.swift in Sources */,
 				327AE3F429FA4D1C00874B0A /* ViewController.swift in Sources */,
