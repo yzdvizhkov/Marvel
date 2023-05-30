@@ -6,7 +6,7 @@
 //
 
 import Alamofire
-import AlamofireImage
+import SDWebImage
 import SnapKit
 import UIKit
 
@@ -22,13 +22,8 @@ class CustomTableViewCell: UITableViewCell {
         if let description = charactersResult.description {
             descriptionLabel.text = " \(description) "
         }
-        if let url = imageUrlString(result: charactersResult) {
-            marvelApiManager.downloadImageData(for: url, completion: {
-                [weak self] response in
-                guard case let res as Data = response else { return }
-                self?.superHeroImageView.image = UIImage(data: res)
-            })
-        }
+        guard let url = imageUrlString(result: charactersResult) else { return }
+        superHeroImageView.sd_setImage(with: URL(string: url))
     }
 
     func imageUrlString(result: CharactersResult) -> String? {
@@ -39,7 +34,7 @@ class CustomTableViewCell: UITableViewCell {
         return "\(path).\(ext)"
     }
 
-    let superHeroImageView: UIImageView = {
+    var superHeroImageView: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill // image will never be strecthed vertially or horizontally
         img.translatesAutoresizingMaskIntoConstraints = false // enable autolayout

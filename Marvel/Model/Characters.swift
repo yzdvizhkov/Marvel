@@ -16,7 +16,13 @@ struct Characters: Decodable {
 
 struct CharactersData: Decodable {
     var charactersResults: [CharactersResult]
+    var limit: Int
+    var total: Int
+    var offset: Int
     enum CodingKeys: String, CodingKey {
+        case limit
+        case total
+        case offset
         case charactersResults = "results"
     }
 }

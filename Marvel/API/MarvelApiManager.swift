@@ -10,33 +10,35 @@ import AlamofireImage
 import Foundation
 
 class MarvelApiManager {
-    private let TS = "1"
-    private let API_KEY = "7dfc0f333e73358c0783803b12719235"
-    private let HASH = "d7383b12bd32ebe70a6fa0d12f1ba6ce"
-    typealias Response<T> = (_ result: AFResult<T>) -> Void
+    private let baseUrl = "https://gateway.marvel.com/v1/public"
+    let networkLogger = NetworkClientLogger()
 
-    func getCharacters(completionHandler: @escaping (Result<Characters, AFError>) -> Void) {
-        performRequest(completion: completionHandler)
+    var baseParams: [String: Any] = ["ts": "1", "apikey": "7dfc0f333e73358c0783803b12719235", "hash": "d7383b12bd32ebe70a6fa0d12f1ba6ce"]
+
+    func getCharacters(offset: Int?, completionHandler: @escaping (Result<Characters, AFError>) -> Void) {
+        performRequest(offset: offset, completion: completionHandler)
     }
 
-    func performRequest(completion: @escaping (Result<Characters, AFError>) -> Void) {
-        let path = "https://gateway.marvel.com/v1/public/characters?ts=%@&apikey=%@&hash=%@"
-        let urlPath = String(format: path, TS, API_KEY, HASH)
-        AF.request(urlPath, method: .get).responseDecodable(of: Characters.self, queue: .main, decoder: JSONDecoder(), completionHandler: { response in
+    func getCharacters(offset: Int?, name: String? = nil, completionHandler: @escaping (Result<Characters, AFError>) -> Void) {
+        performRequest(offset: offset, name: name, completion: completionHandler)
+    }
+
+    func performRequest(offset: Int?, completion: @escaping (Result<Characters, AFError>) -> Void) {
+        let urlPath = baseUrl + "/characters"
+        if offset != nil { baseParams["offset"] = offset }
+        AF.request(urlPath, method: .get, parameters: baseParams).responseDecodable(of: Characters.self, queue: .main, decoder: JSONDecoder(), completionHandler: { response in
+            self.networkLogger.log(request: response.request, response: response.response, data: response.data, error: response.error, startTime: Date())
             completion(response.result)
         })
     }
 
-    func downloadImageData(for urlString: String, completion: @escaping (Data?) -> Void) {
-        AF.request(urlString, method: .get).responseData(completionHandler: { response in
-            switch response.result {
-            case let .success(data as Data):
-                completion(data)
-            case let .failure(error):
-                completion(nil)
-            default:
-                fatalError("received non JSON response")
-            }
+    func performRequest(offset: Int?, name: String? = nil, completion: @escaping (Result<Characters, AFError>) -> Void) {
+        let urlPath = baseUrl + "/characters"
+        if offset != nil { baseParams["offset"] = offset }
+        if name != nil, name != "" { baseParams["nameStartsWith"] = name }
+        AF.request(urlPath, method: .get, parameters: baseParams).responseDecodable(of: Characters.self, queue: .main, decoder: JSONDecoder(), completionHandler: { response in
+            self.networkLogger.log(request: response.request, response: response.response, data: response.data, error: response.error, startTime: Date())
+            completion(response.result)
         })
     }
 }
