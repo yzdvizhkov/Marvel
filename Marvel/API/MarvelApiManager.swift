@@ -6,7 +6,6 @@
 //
 
 import Alamofire
-import AlamofireImage
 import Foundation
 
 class MarvelApiManager {

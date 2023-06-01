@@ -8,19 +8,28 @@
 import SnapKit
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class CharactersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     private var tableView: UITableView!
-    private var charactersResults: [CharactersResult] = []
+//    private var charactersResults: [CharactersResult] = []
     private var filteredData: [CharactersResult]!
     let searchController = UISearchController(searchResultsController: nil)
     private lazy var searchBar: UISearchBar = searchController.searchBar
     var isSearching = false
+    private var presenter: CharactersPresenter
     var total = 0
     var searchText: String = ""
     var searchTimer: Timer?
-    var searchTask: DispatchWorkItem?
-
     var marvelApiManager = MarvelApiManager()
+
+    init(presenter: CharactersPresenter) {
+        self.presenter = presenter
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +37,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
         tableView.dataSource = self
-        filteredData = charactersResults
+        filteredData = presenter.charactersResults
         view.addSubview(tableView)
         view.addSubview(activityIndicator)
         tableView.tableHeaderView = searchBar
@@ -38,33 +47,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.tableFooterView = activityIndicator
         searchBar.delegate = self
 
-        getCharacters()
-    }
-
-    func getCharacters(offset: Int = 0) {
-        activityIndicator.startAnimating()
-        marvelApiManager.getCharacters(offset: offset, completionHandler: { [weak self] result in
-            guard let self = self else { return }
-            self.activityIndicator.stopAnimating()
-            switch result {
-            case let .success(characters):
-                let total = characters.charactersData.total
-                let offset = characters.charactersData.offset
-                self.charactersResults += characters.charactersData.charactersResults
-                if total == offset { // stop activity indicator when all results are loaded
-                    return
-                }
-                self.tableView.reloadData()
-            case let .failure(error):
-                let alert = UIAlertController(title: "Alert", message: "Something went wrong", preferredStyle: UIAlertController.Style.alert)
-                let ok = UIAlertAction(title: "Try again", style: .default) { _ in
-                    self.getCharacters(offset: offset)
-                }
-                alert.addAction(ok)
-                self.present(alert, animated: true, completion: nil)
-                debugPrint(error)
-            }
-        })
+        presenter.getCharacters()
     }
 
     @objc func fetchCheractersByName(offset: Int = 0, name: String) {
@@ -92,26 +75,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        isSearching == true ? cell.setupModel(result: filteredData[indexPath.row]) : cell.setupModel(result: charactersResults[indexPath.row])
+        isSearching == true ? cell.setupModel(result: filteredData[indexPath.row]) : cell.setupModel(result: presenter.charactersResults[indexPath.row])
         return cell
     }
 
     func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        isSearching ? filteredData.count : charactersResults.count
+        isSearching ? filteredData.count : presenter.charactersResults.count
     }
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         searchController.isActive = false
-        let result: CharactersResult = isSearching == true ? filteredData[indexPath.row] : charactersResults[indexPath.row]
+        let result: CharactersResult = isSearching == true ? filteredData[indexPath.row] : presenter.charactersResults[indexPath.row]
         let rootVC = HeroDetailsViewController(result: result)
         let navVC = UINavigationController(rootViewController: rootVC)
         present(navVC, animated: true)
     }
 
     func tableView(_: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if !isSearching && indexPath.row == charactersResults.count - 1 {
-            getCharacters(offset: charactersResults.count)
+        if !isSearching && indexPath.row == presenter.charactersResults.count - 1 {
+            presenter.getCharacters(offset: presenter.charactersResults.count)
         } else if isSearching && indexPath.row == filteredData.count - 1 {
             fetchCheractersByName(offset: filteredData.count, name: searchText)
         }
@@ -153,4 +136,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         activityIndicator.style = .medium
         return activityIndicator
     }()
+
+    func startActivivtyIndicator() {
+        activityIndicator.startAnimating()
+    }
+
+    func stopActivivtyIndicator() {
+        activityIndicator.stopAnimating()
+    }
+
+    func updateTable() {
+        tableView.reloadData()
+    }
+
+    func showAlert(characters: @escaping () -> Void) {
+        let alert = UIAlertController(title: "Alert", message: "Something went wrong", preferredStyle: UIAlertController.Style.alert)
+        let ok = UIAlertAction(title: "Try again", style: .default) { _ in
+            characters()
+        }
+        alert.addAction(ok)
+        present(alert, animated: true, completion: nil)
+    }
 }

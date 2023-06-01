@@ -12,6 +12,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        window?.makeKeyAndVisible()
+        let presenter = CharactersPresenter()
+        let vc = CharactersViewController(presenter: presenter)
+        presenter.charactersVewController = vc
+        window?.rootViewController = vc
     }
 
     func sceneDidDisconnect(_: UIScene) {
