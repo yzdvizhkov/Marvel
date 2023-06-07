@@ -65,6 +65,40 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
+		32556D572A28D9CF00399765 /* CharactersScreen */ = {
+			isa = PBXGroup;
+			children = (
+				32556D582A28DA4700399765 /* View */,
+				32F9155E2A0821490090EE8C /* Controller */,
+				32556D542A2603CF00399765 /* Presenter */,
+			);
+			path = CharactersScreen;
+			sourceTree = "<group>";
+		};
+		32556D582A28DA4700399765 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				327AE3F329FA4D1C00874B0A /* CharactersViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		32556D592A28DA6100399765 /* HeroDetailsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				32556D5A2A28DA7E00399765 /* View */,
+			);
+			path = HeroDetailsScreen;
+			sourceTree = "<group>";
+		};
+		32556D5A2A28DA7E00399765 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				32F9155F2A08248F0090EE8C /* HeroDetalsViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		327AE3E329FA4D1C00874B0A = {
 			isa = PBXGroup;
 			children = (
@@ -85,9 +119,9 @@
 		327AE3EE29FA4D1C00874B0A /* Marvel */ = {
 			isa = PBXGroup;
 			children = (
-				32556D542A2603CF00399765 /* Presenter */,
+				32556D592A28DA6100399765 /* HeroDetailsScreen */,
+				32556D572A28D9CF00399765 /* CharactersScreen */,
 				32F9156A2A0BBAA10090EE8C /* API */,
-				32F9155E2A0821490090EE8C /* Controller */,
 				32F9155D2A0820880090EE8C /* Model */,
 				32F9155C2A0820460090EE8C /* Views */,
 				327AE3EF29FA4D1C00874B0A /* AppDelegate.swift */,
@@ -118,8 +152,6 @@
 		32F9155E2A0821490090EE8C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				327AE3F329FA4D1C00874B0A /* CharactersViewController.swift */,
-				32F9155F2A08248F0090EE8C /* HeroDetalsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
