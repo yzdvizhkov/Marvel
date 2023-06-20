@@ -5,6 +5,7 @@
 //  Created by Юрій Здвіжков on 25.04.2023.
 //
 
+import Firebase
 import SnapKit
 import UIKit
 
@@ -14,13 +15,16 @@ protocol ViewControllerInput: AnyObject {
     func showAlert(characters: @escaping () -> Void)
     func updateTable()
     func isSearchBarEmpty() -> Bool
+    func passData(data: [CharactersResult])
 }
 
-class CharactersViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+final class CharactersViewController: UIViewController, UISearchBarDelegate {
     private var tableView: UITableView!
     let searchController = UISearchController(searchResultsController: nil)
     private lazy var searchBar: UISearchBar = searchController.searchBar
-    private var presenter: PresenterInput
+    private let presenter: PresenterInput
+    private var characters: [CharactersResult] = []
+    private let rc = RefreshControlService()
 
     init(presenter: CharactersPresenter) {
         self.presenter = presenter
@@ -34,6 +38,14 @@ class CharactersViewController: UIViewController, UITableViewDelegate, UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
+        setupConstraints()
+        presenter.fetchInitialData()
+        passData(data: characters)
+        rc.fetchRCValues()
+    }
+
+    func setupViews() {
         tableView = UITableView(frame: .zero)
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.delegate = self
@@ -42,37 +54,13 @@ class CharactersViewController: UIViewController, UITableViewDelegate, UITableVi
         view.addSubview(activityIndicator)
         tableView.tableHeaderView = searchBar
 
-        tableView.snp.makeConstraints { make in make.edges.equalToSuperview() }
         tableView.rowHeight = 80
         tableView.tableFooterView = activityIndicator
         searchBar.delegate = self
-
-        presenter.fetchInitialData()
     }
 
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        cell.setupModel(result: presenter.getCharactersResults()[indexPath.row])
-        return cell
-    }
-
-    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
-        presenter.getCharactersResults().count
-    }
-
-    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-        searchController.isActive = false
-        let result: CharactersResult = presenter.getCharactersResults()[indexPath.row]
-        let rootVC = HeroDetailsViewController(result: result)
-        let navVC = UINavigationController(rootViewController: rootVC)
-        present(navVC, animated: false)
-    }
-
-    func tableView(_: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == presenter.getCharactersResults().count - 1 {
-            presenter.fetchDataOnSearch()
-        }
+    func setupConstraints() {
+        tableView.snp.makeConstraints { make in make.edges.equalToSuperview() }
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange _: String) {
@@ -80,11 +68,11 @@ class CharactersViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        presenter.clearResults()
         searchBar.text = nil
         searchBar.showsCancelButton = true
         searchBar.endEditing(true)
         tableView.reloadData()
+        presenter.clearResults()
     }
 
     lazy var activityIndicator: UIActivityIndicatorView = {
@@ -95,6 +83,35 @@ class CharactersViewController: UIViewController, UITableViewDelegate, UITableVi
 
     func updateTable() {
         tableView.reloadData()
+    }
+}
+
+extension CharactersViewController: UITableViewDelegate {
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        searchController.isActive = false
+        let result: CharactersResult = characters[indexPath.row]
+        let rootVC = HeroDetailsViewController(result: result)
+        let navVC = UINavigationController(rootViewController: rootVC)
+        present(navVC, animated: false)
+    }
+
+    func tableView(_: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == characters.count - 1 {
+            presenter.fetchDataOnSearch()
+        }
+    }
+}
+
+extension CharactersViewController: UITableViewDataSource {
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        characters.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
+        cell.setupModel(result: characters[indexPath.row])
+        return cell
     }
 }
 
@@ -116,5 +133,10 @@ extension CharactersViewController: ViewControllerInput {
         let ok = UIAlertAction(title: "Try again", style: .default) { _ in characters() }
         alert.addAction(ok)
         present(alert, animated: true, completion: nil)
+    }
+
+    func passData(data: [CharactersResult]) {
+        characters = data
+        updateTable()
     }
 }

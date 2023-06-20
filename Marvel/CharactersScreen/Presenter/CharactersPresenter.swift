@@ -13,8 +13,8 @@ protocol PresenterInput {
     func fetchData(offset: Int, name: String)
     func fetchDataOnSearch()
     func loadMoreData(name: String)
-    func getCharactersResults() -> [CharactersResult]
     func clearResults()
+//    func fetchRCValues()
 }
 
 class CharactersPresenter: PresenterInput {
@@ -41,6 +41,7 @@ class CharactersPresenter: PresenterInput {
     var searchText: String = ""
     var searchTimer: Timer?
     var isSearching = false
+//    var rc = RefreshControlService()
 
     func getCharacters(offset: Int = 0) {
         charactersVewController?.startIndicator()
@@ -55,8 +56,7 @@ class CharactersPresenter: PresenterInput {
                 if total == offset {
                     return
                 }
-                self.charactersVewController?.updateTable()
-
+                self.charactersVewController?.passData(data: self.charactersResults)
             case let .failure(error):
                 self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
                 debugPrint(error)
@@ -78,7 +78,7 @@ class CharactersPresenter: PresenterInput {
                 if total == offset {
                     return
                 }
-                self.charactersVewController?.updateTable()
+                self.charactersVewController?.passData(data: self.filteredData)
             case let .failure(error):
                 self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
                 debugPrint(error)
@@ -96,17 +96,16 @@ class CharactersPresenter: PresenterInput {
                 guard let self = self else { return }
                 DispatchQueue.main.async {
                     self.fetchData(offset: self.filteredData.count, name: name)
-                    self.charactersVewController?.updateTable()
                 }
             }
         })
     }
 
     func getCharactersResults() -> [CharactersResult] {
-        isSearching == true ? filteredData : charactersResults
+        isSearching ? filteredData : charactersResults
     }
 
     func fetchDataOnSearch() {
-        isSearching == true ? fetchData(offset: filteredData.count, name: searchText) : fetchData(offset: charactersResults.count)
+        isSearching ? fetchData(offset: filteredData.count, name: searchText) : fetchData(offset: charactersResults.count)
     }
 }

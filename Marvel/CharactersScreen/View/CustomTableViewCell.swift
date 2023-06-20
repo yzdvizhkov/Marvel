@@ -10,11 +10,13 @@ import SDWebImage
 import SnapKit
 import UIKit
 
-class CustomTableViewCell: UITableViewCell {
+final class CustomTableViewCell: UITableViewCell {
     let marvelApiManager = MarvelApiManager()
+    let rc = RefreshControlService()
 
     func setupModel(result: CharactersResult?) {
         guard let charactersResult = result else { return }
+//        print(rc.testFeatureFlag)
         if let name = charactersResult.name {
             nameLabel.text = " \(name) "
             superHeroImageView.image = UIImage(named: name)
