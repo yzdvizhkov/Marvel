@@ -14,7 +14,8 @@
 		32556D612A30A4C500399765 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 32556D602A30A4C500399765 /* FirebaseAnalyticsSwift */; };
 		32556D632A30A4C500399765 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 32556D622A30A4C500399765 /* FirebaseRemoteConfig */; };
 		32556D652A30A4C500399765 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 32556D642A30A4C500399765 /* FirebaseRemoteConfigSwift */; };
-		32556D672A37573100399765 /* RefreshControlService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32556D662A37573100399765 /* RefreshControlService.swift */; };
+		32556D672A37573100399765 /* RemoteConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32556D662A37573100399765 /* RemoteConfigService.swift */; };
+		32556D692A41ABA500399765 /* CharactersClientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32556D682A41ABA500399765 /* CharactersClientModel.swift */; };
 		327AE3F029FA4D1C00874B0A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AE3EF29FA4D1C00874B0A /* AppDelegate.swift */; };
 		327AE3F229FA4D1C00874B0A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AE3F129FA4D1C00874B0A /* SceneDelegate.swift */; };
 		327AE3F429FA4D1C00874B0A /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327AE3F329FA4D1C00874B0A /* CharactersViewController.swift */; };
@@ -27,7 +28,7 @@
 		32F914C42A0533490090EE8C /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = 32F914C32A0533490090EE8C /* .swiftformat */; };
 		32F915602A08248F0090EE8C /* HeroDetalsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F9155F2A08248F0090EE8C /* HeroDetalsViewController.swift */; };
 		32F915672A0AA0C20090EE8C /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 32F915662A0AA0C20090EE8C /* Alamofire */; };
-		32F915692A0BB37C0090EE8C /* Characters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F915682A0BB37C0090EE8C /* Characters.swift */; };
+		32F915692A0BB37C0090EE8C /* CharactersServerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F915682A0BB37C0090EE8C /* CharactersServerModel.swift */; };
 		32F9156C2A0BBABD0090EE8C /* MarvelApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F9156B2A0BBABD0090EE8C /* MarvelApiManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,7 +36,8 @@
 		32556D522A1B7DA800399765 /* NetworkClientLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClientLogger.swift; sourceTree = "<group>"; };
 		32556D552A2603F200399765 /* CharactersPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersPresenter.swift; sourceTree = "<group>"; };
 		32556D5B2A30A24F00399765 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		32556D662A37573100399765 /* RefreshControlService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshControlService.swift; sourceTree = "<group>"; };
+		32556D662A37573100399765 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
+		32556D682A41ABA500399765 /* CharactersClientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersClientModel.swift; sourceTree = "<group>"; };
 		327AE3EC29FA4D1C00874B0A /* Marvel.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Marvel.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		327AE3EF29FA4D1C00874B0A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		327AE3F129FA4D1C00874B0A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,7 +48,7 @@
 		32D5767929FC5A580013C09C /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		32F914C32A0533490090EE8C /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 		32F9155F2A08248F0090EE8C /* HeroDetalsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroDetalsViewController.swift; sourceTree = "<group>"; };
-		32F915682A0BB37C0090EE8C /* Characters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Characters.swift; sourceTree = "<group>"; };
+		32F915682A0BB37C0090EE8C /* CharactersServerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersServerModel.swift; sourceTree = "<group>"; };
 		32F9156B2A0BBABD0090EE8C /* MarvelApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelApiManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,7 +158,8 @@
 		32F9155D2A0820880090EE8C /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				32F915682A0BB37C0090EE8C /* Characters.swift */,
+				32F915682A0BB37C0090EE8C /* CharactersServerModel.swift */,
+				32556D682A41ABA500399765 /* CharactersClientModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -166,7 +169,7 @@
 			children = (
 				32F9156B2A0BBABD0090EE8C /* MarvelApiManager.swift */,
 				32556D522A1B7DA800399765 /* NetworkClientLogger.swift */,
-				32556D662A37573100399765 /* RefreshControlService.swift */,
+				32556D662A37573100399765 /* RemoteConfigService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -282,12 +285,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				32556D692A41ABA500399765 /* CharactersClientModel.swift in Sources */,
 				32556D532A1B7DA800399765 /* NetworkClientLogger.swift in Sources */,
 				32F9156C2A0BBABD0090EE8C /* MarvelApiManager.swift in Sources */,
-				32F915692A0BB37C0090EE8C /* Characters.swift in Sources */,
+				32F915692A0BB37C0090EE8C /* CharactersServerModel.swift in Sources */,
 				327AE3F429FA4D1C00874B0A /* CharactersViewController.swift in Sources */,
 				327AE3F029FA4D1C00874B0A /* AppDelegate.swift in Sources */,
-				32556D672A37573100399765 /* RefreshControlService.swift in Sources */,
+				32556D672A37573100399765 /* RemoteConfigService.swift in Sources */,
 				32D5767A29FC5A580013C09C /* CustomTableViewCell.swift in Sources */,
 				327AE3F229FA4D1C00874B0A /* SceneDelegate.swift in Sources */,
 				32F915602A08248F0090EE8C /* HeroDetalsViewController.swift in Sources */,

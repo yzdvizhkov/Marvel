@@ -41,7 +41,7 @@ class CharactersPresenter: PresenterInput {
     var searchText: String = ""
     var searchTimer: Timer?
     var isSearching = false
-//    var rc = RefreshControlService()
+//    var rc = RemoteConfigService()
 
     func getCharacters(offset: Int = 0) {
         charactersVewController?.startIndicator()
@@ -56,12 +56,22 @@ class CharactersPresenter: PresenterInput {
                 if total == offset {
                     return
                 }
-                self.charactersVewController?.passData(data: self.charactersResults)
+                let clientModel = self.setupClientModel(charactersResults: self.charactersResults)
+                self.charactersVewController?.passData(data: clientModel)
             case let .failure(error):
                 self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
                 debugPrint(error)
             }
         })
+    }
+
+    func setupClientModel(charactersResults: [CharactersResult]) -> [CharactersClientModel] {
+        charactersResults.map { result in
+            let path = result.thumbnail?.path ?? ""
+            let ext = result.thumbnail?.ext ?? ""
+            let url = URL(string: "\(path).\(ext)")!
+            return CharactersClientModel(name: result.name!, description: result.description!, imageUrl: url, isImageHidden: true)
+        }
     }
 
     func getCharacters(offset: Int = 0, name: String) {
@@ -78,7 +88,8 @@ class CharactersPresenter: PresenterInput {
                 if total == offset {
                     return
                 }
-                self.charactersVewController?.passData(data: self.filteredData)
+                let clientModel = self.setupClientModel(charactersResults: self.filteredData)
+                self.charactersVewController?.passData(data: clientModel)
             case let .failure(error):
                 self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
                 debugPrint(error)
@@ -108,4 +119,5 @@ class CharactersPresenter: PresenterInput {
     func fetchDataOnSearch() {
         isSearching ? fetchData(offset: filteredData.count, name: searchText) : fetchData(offset: charactersResults.count)
     }
+    
 }

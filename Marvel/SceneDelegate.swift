@@ -9,16 +9,25 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    let rc = RemoteConfigService()
+    var isHiddenFlag: Bool?
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
+        rc.fetchRCValues()
         let presenter = CharactersPresenter()
         let vc = CharactersViewController(presenter: presenter)
+        isHiddenFlag = rc.isRefreshControlFlagActive()
+
         presenter.charactersVewController = vc
         window?.rootViewController = vc
+    }
+    
+    func isFlagHidden() -> Bool {
+        isHiddenFlag!
     }
 
     func sceneDidDisconnect(_: UIScene) {

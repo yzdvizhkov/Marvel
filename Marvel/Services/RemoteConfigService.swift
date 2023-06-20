@@ -8,7 +8,7 @@
 import Firebase
 import Foundation
 
-class RefreshControlService {
+class RemoteConfigService {
     private let remoteConfig = RemoteConfig.remoteConfig()
     open var testFeatureFlag: Bool = false
 

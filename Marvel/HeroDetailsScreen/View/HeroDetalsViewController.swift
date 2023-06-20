@@ -8,9 +8,9 @@
 import UIKit
 
 class HeroDetailsViewController: UIViewController {
-    var result: CharactersResult?
+    var result: CharactersClientModel?
 
-    init(result: CharactersResult?) {
+    init(result: CharactersClientModel?) {
         self.result = result
         super.init(nibName: nil, bundle: nil)
     }

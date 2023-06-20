@@ -15,7 +15,7 @@ protocol ViewControllerInput: AnyObject {
     func showAlert(characters: @escaping () -> Void)
     func updateTable()
     func isSearchBarEmpty() -> Bool
-    func passData(data: [CharactersResult])
+    func passData(data: [CharactersClientModel])
 }
 
 final class CharactersViewController: UIViewController, UISearchBarDelegate {
@@ -23,8 +23,8 @@ final class CharactersViewController: UIViewController, UISearchBarDelegate {
     let searchController = UISearchController(searchResultsController: nil)
     private lazy var searchBar: UISearchBar = searchController.searchBar
     private let presenter: PresenterInput
-    private var characters: [CharactersResult] = []
-    private let rc = RefreshControlService()
+    private var characters: [CharactersClientModel] = []
+//    private let rc = RefreshControlService()
 
     init(presenter: CharactersPresenter) {
         self.presenter = presenter
@@ -42,7 +42,6 @@ final class CharactersViewController: UIViewController, UISearchBarDelegate {
         setupConstraints()
         presenter.fetchInitialData()
         passData(data: characters)
-        rc.fetchRCValues()
     }
 
     func setupViews() {
@@ -90,7 +89,7 @@ extension CharactersViewController: UITableViewDelegate {
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         searchController.isActive = false
-        let result: CharactersResult = characters[indexPath.row]
+        let result: CharactersClientModel = characters[indexPath.row]
         let rootVC = HeroDetailsViewController(result: result)
         let navVC = UINavigationController(rootViewController: rootVC)
         present(navVC, animated: false)
@@ -110,7 +109,7 @@ extension CharactersViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableViewCell
-        cell.setupModel(result: characters[indexPath.row])
+        cell.setupModel(model: characters[indexPath.row])
         return cell
     }
 }
@@ -135,7 +134,7 @@ extension CharactersViewController: ViewControllerInput {
         present(alert, animated: true, completion: nil)
     }
 
-    func passData(data: [CharactersResult]) {
+    func passData(data: [CharactersClientModel]) {
         characters = data
         updateTable()
     }

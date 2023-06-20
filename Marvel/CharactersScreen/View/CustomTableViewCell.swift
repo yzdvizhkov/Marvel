@@ -12,28 +12,12 @@ import UIKit
 
 final class CustomTableViewCell: UITableViewCell {
     let marvelApiManager = MarvelApiManager()
-    let rc = RefreshControlService()
 
-    func setupModel(result: CharactersResult?) {
-        guard let charactersResult = result else { return }
-//        print(rc.testFeatureFlag)
-        if let name = charactersResult.name {
-            nameLabel.text = " \(name) "
-            superHeroImageView.image = UIImage(named: name)
-        }
-        if let description = charactersResult.description {
-            descriptionLabel.text = " \(description) "
-        }
-        guard let url = imageUrlString(result: charactersResult) else { return }
-        superHeroImageView.sd_setImage(with: URL(string: url))
-    }
-
-    func imageUrlString(result: CharactersResult) -> String? {
-        guard
-            let path = result.thumbnail?.path,
-            let ext = result.thumbnail?.ext
-        else { return nil }
-        return "\(path).\(ext)"
+    func setupModel(model: CharactersClientModel) {
+        nameLabel.text = " \(model.name) "
+        superHeroImageView.image = UIImage(named: model.name)
+        descriptionLabel.text = " \(model.description) "
+        superHeroImageView.sd_setImage(with: model.imageUrl)
     }
 
     var superHeroImageView: UIImageView = {
