@@ -25,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         presenter.charactersVewController = vc
         window?.rootViewController = vc
     }
-    
+
     func isFlagHidden() -> Bool {
         isHiddenFlag!
     }

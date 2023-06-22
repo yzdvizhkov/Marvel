@@ -24,7 +24,6 @@ final class CharactersViewController: UIViewController, UISearchBarDelegate {
     private lazy var searchBar: UISearchBar = searchController.searchBar
     private let presenter: PresenterInput
     private var characters: [CharactersClientModel] = []
-//    private let rc = RefreshControlService()
 
     init(presenter: CharactersPresenter) {
         self.presenter = presenter
@@ -70,7 +69,6 @@ final class CharactersViewController: UIViewController, UISearchBarDelegate {
         searchBar.text = nil
         searchBar.showsCancelButton = true
         searchBar.endEditing(true)
-        tableView.reloadData()
         presenter.clearResults()
     }
 
@@ -79,10 +77,6 @@ final class CharactersViewController: UIViewController, UISearchBarDelegate {
         activityIndicator.style = .medium
         return activityIndicator
     }()
-
-    func updateTable() {
-        tableView.reloadData()
-    }
 }
 
 extension CharactersViewController: UITableViewDelegate {
@@ -127,6 +121,10 @@ extension CharactersViewController: ViewControllerInput {
         activityIndicator.stopAnimating()
     }
 
+    func updateTable() {
+        tableView.reloadData()
+    }
+
     func showAlert(characters: @escaping () -> Void) {
         let alert = UIAlertController(title: "Alert", message: "Something went wrong", preferredStyle: UIAlertController.Style.alert)
         let ok = UIAlertAction(title: "Try again", style: .default) { _ in characters() }
@@ -136,6 +134,5 @@ extension CharactersViewController: ViewControllerInput {
 
     func passData(data: [CharactersClientModel]) {
         characters = data
-        updateTable()
     }
 }

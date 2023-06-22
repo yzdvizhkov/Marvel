@@ -10,16 +10,18 @@ import Foundation
 protocol PresenterInput {
     func fetchInitialData()
     func fetchData(offset: Int)
-    func fetchData(offset: Int, name: String)
+    func fetchDataByName(offset: Int, name: String)
     func fetchDataOnSearch()
     func loadMoreData(name: String)
     func clearResults()
-//    func fetchRCValues()
 }
 
 class CharactersPresenter: PresenterInput {
     func clearResults() {
         isSearching = false
+        charactersClientModel = setupClientModel(charactersResults: charactersResults)
+        charactersVewController?.passData(data: charactersClientModel)
+        charactersVewController?.updateTable()
     }
 
     func fetchInitialData() {
@@ -30,7 +32,7 @@ class CharactersPresenter: PresenterInput {
         getCharacters(offset: offset)
     }
 
-    func fetchData(offset: Int, name: String) {
+    func fetchDataByName(offset: Int, name: String) {
         getCharacters(offset: offset, name: name)
     }
 
@@ -41,6 +43,8 @@ class CharactersPresenter: PresenterInput {
     var searchText: String = ""
     var searchTimer: Timer?
     var isSearching = false
+    var charactersClientModel: [CharactersClientModel] = []
+    var filteredClientModel: [CharactersClientModel] = []
 //    var rc = RemoteConfigService()
 
     func getCharacters(offset: Int = 0) {
@@ -53,11 +57,13 @@ class CharactersPresenter: PresenterInput {
                 let total = characters.charactersData.total
                 let offset = characters.charactersData.offset
                 self.charactersResults += characters.charactersData.charactersResults
+                self.charactersClientModel = self.setupClientModel(charactersResults: self.charactersResults)
+                self.charactersVewController?.passData(data: self.charactersClientModel)
                 if total == offset {
                     return
                 }
-                let clientModel = self.setupClientModel(charactersResults: self.charactersResults)
-                self.charactersVewController?.passData(data: clientModel)
+                self.charactersVewController?.updateTable()
+
             case let .failure(error):
                 self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
                 debugPrint(error)
@@ -77,7 +83,7 @@ class CharactersPresenter: PresenterInput {
     func getCharacters(offset: Int = 0, name: String) {
         isSearching = true
         charactersVewController?.startIndicator()
-        marvelApiManager.getCharacters(offset: offset, name: name, completionHandler: { [weak self] result in
+        marvelApiManager.getCharactersByName(offset: offset, name: name, completionHandler: { [weak self] result in
             guard let self = self else { return }
             self.charactersVewController?.stopIndicator()
             switch result {
@@ -85,11 +91,14 @@ class CharactersPresenter: PresenterInput {
                 let total = characters.charactersData.total
                 let offset = characters.charactersData.offset
                 self.filteredData += characters.charactersData.charactersResults
+                self.filteredClientModel = self.setupClientModel(charactersResults: self.filteredData)
+                self.charactersVewController?.passData(data: self.filteredClientModel)
+
                 if total == offset {
                     return
                 }
-                let clientModel = self.setupClientModel(charactersResults: self.filteredData)
-                self.charactersVewController?.passData(data: clientModel)
+                self.charactersVewController?.updateTable()
+
             case let .failure(error):
                 self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
                 debugPrint(error)
@@ -100,24 +109,20 @@ class CharactersPresenter: PresenterInput {
     func loadMoreData(name: String) {
         isSearching = true
         filteredData = []
+        filteredClientModel = setupClientModel(charactersResults: filteredData)
         searchTimer?.invalidate()
 
         searchTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { [weak self] _ in
             DispatchQueue.global(qos: .userInteractive).async { [weak self] in
                 guard let self = self else { return }
                 DispatchQueue.main.async {
-                    self.fetchData(offset: self.filteredData.count, name: name)
+                    self.fetchDataByName(offset: self.filteredClientModel.count, name: name)
                 }
             }
         })
     }
 
-    func getCharactersResults() -> [CharactersResult] {
-        isSearching ? filteredData : charactersResults
-    }
-
     func fetchDataOnSearch() {
-        isSearching ? fetchData(offset: filteredData.count, name: searchText) : fetchData(offset: charactersResults.count)
+        isSearching ? fetchDataByName(offset: filteredClientModel.count, name: searchText) : fetchData(offset: charactersClientModel.count)
     }
-    
 }

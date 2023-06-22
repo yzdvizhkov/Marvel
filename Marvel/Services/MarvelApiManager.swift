@@ -18,13 +18,14 @@ class MarvelApiManager {
         performRequest(offset: offset, completion: completionHandler)
     }
 
-    func getCharacters(offset: Int?, name: String? = nil, completionHandler: @escaping (Result<CharactersServerModel, AFError>) -> Void) {
+    func getCharactersByName(offset: Int?, name: String? = nil, completionHandler: @escaping (Result<CharactersServerModel, AFError>) -> Void) {
         performRequest(offset: offset, name: name, completion: completionHandler)
     }
 
     func performRequest(offset: Int?, completion: @escaping (Result<CharactersServerModel, AFError>) -> Void) {
         let urlPath = baseUrl + "/characters"
         if offset != nil { baseParams["offset"] = offset }
+        baseParams["nameStartsWith"] = nil
         AF.request(urlPath, method: .get, parameters: baseParams).responseDecodable(of: CharactersServerModel.self, queue: .main, decoder: JSONDecoder(), completionHandler: { response in
             self.networkLogger.log(request: response.request, response: response.response, data: response.data, error: response.error, startTime: Date())
             completion(response.result)
