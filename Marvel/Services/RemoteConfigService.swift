@@ -10,7 +10,7 @@ import Foundation
 
 class RemoteConfigService {
     private let remoteConfig = RemoteConfig.remoteConfig()
-    open var testFeatureFlag: Bool = false
+    var testFeatureFlag: Bool = false
 
     func fetchRCValues() {
         let defaults: [String: NSObject] = ["test_feature_flag": false as NSObject]
@@ -32,9 +32,5 @@ class RemoteConfigService {
                 print("Something went wrong")
             }
         })
-    }
-
-    func isRefreshControlFlagActive() -> Bool {
-        testFeatureFlag
     }
 }

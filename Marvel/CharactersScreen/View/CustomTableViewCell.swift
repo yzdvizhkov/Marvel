@@ -11,19 +11,9 @@ import SnapKit
 import UIKit
 
 final class CustomTableViewCell: UITableViewCell {
-    let marvelApiManager = MarvelApiManager()
-
-    func setupModel(model: CharactersClientModel) {
-        nameLabel.text = " \(model.name) "
-        superHeroImageView.image = UIImage(named: model.name)
-        descriptionLabel.text = " \(model.description) "
-        superHeroImageView.sd_setImage(with: model.imageUrl)
-    }
-
     var superHeroImageView: UIImageView = {
         let img = UIImageView()
         img.contentMode = .scaleAspectFill // image will never be strecthed vertially or horizontally
-        img.translatesAutoresizingMaskIntoConstraints = false // enable autolayout
         img.backgroundColor = .yellow
         img.clipsToBounds = true
         return img
@@ -33,7 +23,6 @@ final class CustomTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 16)
         label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
         return label
     }()
@@ -42,7 +31,6 @@ final class CustomTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = label.font.withSize(12)
         label.textColor = .white
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.clipsToBounds = true
         label.numberOfLines = 1
         label.adjustsFontSizeToFitWidth = false
@@ -52,7 +40,6 @@ final class CustomTableViewCell: UITableViewCell {
 
     let containerView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false // tell iOS not to create Auto Layout constraints automatically
         view.clipsToBounds = true // this will make sure its children do not go out of the boundary
         view.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         return view
@@ -90,6 +77,17 @@ final class CustomTableViewCell: UITableViewCell {
             make.bottom.equalTo(containerView.snp.bottom).offset(-15)
             make.leading.equalTo(nameLabel.snp.leading)
             make.trailing.equalTo(containerView.snp.trailing)
+        }
+    }
+
+    func setupModel(model: CharactersClientModel) {
+        nameLabel.text = " \(model.name) "
+        superHeroImageView.image = UIImage(named: model.name)
+        descriptionLabel.text = " \(model.description) "
+        if model.isImageHidden {
+            superHeroImageView.isHidden = true
+        } else {
+            superHeroImageView.sd_setImage(with: model.imageUrl)
         }
     }
 

@@ -17,27 +17,8 @@ protocol PresenterInput {
 }
 
 class CharactersPresenter: PresenterInput {
-    func clearResults() {
-        isSearching = false
-        charactersClientModel = setupClientModel(charactersResults: charactersResults)
-        charactersVewController?.passData(data: charactersClientModel)
-        charactersVewController?.updateTable()
-    }
-
-    func fetchInitialData() {
-        getCharacters()
-    }
-
-    func fetchData(offset: Int) {
-        getCharacters(offset: offset)
-    }
-
-    func fetchDataByName(offset: Int, name: String) {
-        getCharacters(offset: offset, name: name)
-    }
-
     weak var charactersVewController: ViewControllerInput?
-    let marvelApiManager = MarvelApiManager()
+    let marvelApiManager: MarvelApiManager
     var charactersResults: [CharactersResult] = []
     var filteredData: [CharactersResult] = []
     var searchText: String = ""
@@ -45,7 +26,12 @@ class CharactersPresenter: PresenterInput {
     var isSearching = false
     var charactersClientModel: [CharactersClientModel] = []
     var filteredClientModel: [CharactersClientModel] = []
-//    var rc = RemoteConfigService()
+    private let remoteConfig: RemoteConfigService
+
+    init(remoteConfig: RemoteConfigService, marvelApiManager: MarvelApiManager) {
+        self.remoteConfig = remoteConfig
+        self.marvelApiManager = marvelApiManager
+    }
 
     func getCharacters(offset: Int = 0) {
         charactersVewController?.startIndicator()
@@ -76,7 +62,7 @@ class CharactersPresenter: PresenterInput {
             let path = result.thumbnail?.path ?? ""
             let ext = result.thumbnail?.ext ?? ""
             let url = URL(string: "\(path).\(ext)")!
-            return CharactersClientModel(name: result.name!, description: result.description!, imageUrl: url, isImageHidden: true)
+            return CharactersClientModel(name: result.name!, description: result.description!, imageUrl: url, isImageHidden: remoteConfig.testFeatureFlag)
         }
     }
 
@@ -124,5 +110,24 @@ class CharactersPresenter: PresenterInput {
 
     func fetchDataOnSearch() {
         isSearching ? fetchDataByName(offset: filteredClientModel.count, name: searchText) : fetchData(offset: charactersClientModel.count)
+    }
+
+    func clearResults() {
+        isSearching = false
+        charactersClientModel = setupClientModel(charactersResults: charactersResults)
+        charactersVewController?.passData(data: charactersClientModel)
+        charactersVewController?.updateTable()
+    }
+
+    func fetchInitialData() {
+        getCharacters()
+    }
+
+    func fetchData(offset: Int) {
+        getCharacters(offset: offset)
+    }
+
+    func fetchDataByName(offset: Int, name: String) {
+        getCharacters(offset: offset, name: name)
     }
 }
