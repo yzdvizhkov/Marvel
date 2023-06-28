@@ -9,9 +9,18 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    let remoteConfig = RemoteConfigService()
 
     func scene(_ scene: UIScene, willConnectTo _: UISceneSession, options _: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        window?.makeKeyAndVisible()
+        remoteConfig.fetchRCValues()
+        let presenter = CharactersPresenter(remoteConfig: remoteConfig, marvelApiManager: MarvelApiManager())
+        let vc = CharactersViewController(presenter: presenter)
+        presenter.charactersVewController = vc
+        window?.rootViewController = vc
     }
 
     func sceneDidDisconnect(_: UIScene) {

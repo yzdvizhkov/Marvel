@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Characters: Decodable {
+struct CharactersServerModel: Decodable {
     let charactersData: CharactersData
     enum CodingKeys: String, CodingKey {
         case charactersData = "data"
