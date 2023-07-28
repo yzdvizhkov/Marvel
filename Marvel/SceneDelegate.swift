@@ -19,8 +19,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         remoteConfig.fetchRCValues()
         let presenter = CharactersPresenter(remoteConfig: remoteConfig, marvelApiManager: MarvelApiManager())
         let vc = CharactersViewController(presenter: presenter)
+        let nc = UINavigationController(rootViewController: vc)
+        nc.navigationBar.barStyle = UIBarStyle.black
+        nc.navigationBar.backgroundColor = .black
+
+        nc.navigationBar.tintColor = UIColor.white
+        nc.navigationItem.setHidesBackButton(true, animated: true)
         presenter.charactersVewController = vc
-        window?.rootViewController = vc
+        window?.rootViewController = nc
     }
 
     func sceneDidDisconnect(_: UIScene) {

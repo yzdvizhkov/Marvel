@@ -22,6 +22,10 @@ class MarvelApiManager {
         performRequest(offset: offset, name: name, completion: completionHandler)
     }
 
+    func getComicsByCharacterId(characterId: Double, completionHandler: @escaping (Result<ComicsServerModel, AFError>) -> Void) {
+        performRequest(characterId: characterId, completion: completionHandler)
+    }
+
     func performRequest(offset: Int?, completion: @escaping (Result<CharactersServerModel, AFError>) -> Void) {
         let urlPath = baseUrl + "/characters"
         if offset != nil { baseParams["offset"] = offset }
@@ -37,6 +41,14 @@ class MarvelApiManager {
         if offset != nil { baseParams["offset"] = offset }
         if name != nil, name != "" { baseParams["nameStartsWith"] = name }
         AF.request(urlPath, method: .get, parameters: baseParams).responseDecodable(of: CharactersServerModel.self, queue: .main, decoder: JSONDecoder(), completionHandler: { response in
+            self.networkLogger.log(request: response.request, response: response.response, data: response.data, error: response.error, startTime: Date())
+            completion(response.result)
+        })
+    }
+
+    func performRequest(characterId: Double, completion: @escaping (Result<ComicsServerModel, AFError>) -> Void) {
+        let urlPath = baseUrl + "/characters/\(characterId)/comics"
+        AF.request(urlPath, method: .get, parameters: baseParams).responseDecodable(of: ComicsServerModel.self, queue: .main, decoder: JSONDecoder(), completionHandler: { response in
             self.networkLogger.log(request: response.request, response: response.response, data: response.data, error: response.error, startTime: Date())
             completion(response.result)
         })

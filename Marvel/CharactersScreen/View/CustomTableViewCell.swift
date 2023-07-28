@@ -13,7 +13,7 @@ import UIKit
 final class CustomTableViewCell: UITableViewCell {
     var superHeroImageView: UIImageView = {
         let img = UIImageView()
-        img.contentMode = .scaleAspectFill // image will never be strecthed vertially or horizontally
+        img.contentMode = .scaleAspectFill
         img.backgroundColor = .yellow
         img.clipsToBounds = true
         return img
@@ -40,7 +40,7 @@ final class CustomTableViewCell: UITableViewCell {
 
     let containerView: UIView = {
         let view = UIView()
-        view.clipsToBounds = true // this will make sure its children do not go out of the boundary
+        view.clipsToBounds = true
         view.backgroundColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
         return view
     }()

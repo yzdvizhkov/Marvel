@@ -8,6 +8,7 @@
 import Foundation
 
 struct CharactersClientModel {
+    let characterId: Double
     let name: String
     let description: String
     let imageUrl: URL

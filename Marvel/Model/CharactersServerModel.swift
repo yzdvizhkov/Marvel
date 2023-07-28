@@ -31,6 +31,13 @@ struct CharactersResult: Decodable {
     let name: String?
     let description: String?
     let thumbnail: Thumbnail?
+    let characterId: Double
+    enum CodingKeys: String, CodingKey {
+        case name
+        case description
+        case thumbnail
+        case characterId = "id"
+    }
 }
 
 struct Thumbnail: Decodable {

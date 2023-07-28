@@ -6,9 +6,12 @@
 //
 
 import Foundation
+import Network
 
 protocol PresenterInput {
-    func fetchInitialData()
+    func fetchFromServer()
+    func fetchFromDB()
+    func fetchData()
     func fetchData(offset: Int)
     func fetchDataByName(offset: Int, name: String)
     func fetchDataOnSearch()
@@ -27,6 +30,10 @@ class CharactersPresenter: PresenterInput {
     var charactersClientModel: [CharactersClientModel] = []
     var filteredClientModel: [CharactersClientModel] = []
     private let remoteConfig: RemoteConfigService
+    private let storageService = StorageService()
+    var monitor = NWPathMonitor()
+    let queue = DispatchQueue(label: "InternetConnectionMonitor")
+    var networkStatus: Bool = true
 
     init(remoteConfig: RemoteConfigService, marvelApiManager: MarvelApiManager) {
         self.remoteConfig = remoteConfig
@@ -44,6 +51,7 @@ class CharactersPresenter: PresenterInput {
                 let offset = characters.charactersData.offset
                 self.charactersResults += characters.charactersData.charactersResults
                 self.charactersClientModel = self.setupClientModel(charactersResults: self.charactersResults)
+//                self.storageService.save(charactcers: self.charactersResults)
                 self.charactersVewController?.passData(data: self.charactersClientModel)
                 if total == offset {
                     return
@@ -51,7 +59,7 @@ class CharactersPresenter: PresenterInput {
                 self.charactersVewController?.updateTable()
 
             case let .failure(error):
-                self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
+//                self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
                 debugPrint(error)
             }
         })
@@ -62,7 +70,7 @@ class CharactersPresenter: PresenterInput {
             let path = result.thumbnail?.path ?? ""
             let ext = result.thumbnail?.ext ?? ""
             let url = URL(string: "\(path).\(ext)")!
-            return CharactersClientModel(name: result.name!, description: result.description!, imageUrl: url, isImageHidden: remoteConfig.testFeatureFlag)
+            return CharactersClientModel(characterId: result.characterId, name: result.name!, description: result.description!, imageUrl: url, isImageHidden: remoteConfig.testFeatureFlag)
         }
     }
 
@@ -86,7 +94,7 @@ class CharactersPresenter: PresenterInput {
                 self.charactersVewController?.updateTable()
 
             case let .failure(error):
-                self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
+//                self.charactersVewController!.showAlert { self.getCharacters(offset: offset) }
                 debugPrint(error)
             }
         })
@@ -119,8 +127,34 @@ class CharactersPresenter: PresenterInput {
         charactersVewController?.updateTable()
     }
 
-    func fetchInitialData() {
+    func fetchFromServer() {
         getCharacters()
+    }
+
+    func fetchFromDB() {
+        charactersClientModel = storageService.getCharacters()
+        charactersVewController?.passData(data: charactersClientModel)
+        charactersVewController?.updateTable()
+    }
+
+    func fetchData() {
+        monitor.pathUpdateHandler = { pathUpdateHandler in
+            if pathUpdateHandler.status == .satisfied {
+                print("Internet connection is on.")
+                self.fetchFromServer()
+            } else {
+                print("There's no internet connection.")
+                self.fetchFromDB()
+            }
+        }
+        monitor.start(queue: queue)
+    }
+
+    func setNetworkStatus() {
+        monitor = NWPathMonitor()
+        monitor.pathUpdateHandler = { pathUpdateHandler in
+            self.networkStatus = pathUpdateHandler.status == .satisfied ? true : false
+        }
     }
 
     func fetchData(offset: Int) {

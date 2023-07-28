@@ -6,6 +6,7 @@
 //
 
 import Firebase
+import Realm
 import SnapKit
 import UIKit
 
@@ -23,6 +24,7 @@ final class CharactersViewController: UIViewController, UISearchBarDelegate {
     let searchController = UISearchController(searchResultsController: nil)
     private lazy var searchBar: UISearchBar = searchController.searchBar
     private let presenter: PresenterInput
+
     private var characters: [CharactersClientModel] = []
 
     init(presenter: CharactersPresenter) {
@@ -39,7 +41,7 @@ final class CharactersViewController: UIViewController, UISearchBarDelegate {
         super.viewDidLoad()
         setupViews()
         setupConstraints()
-        presenter.fetchInitialData()
+        presenter.fetchFromServer()
         passData(data: characters)
     }
 
@@ -52,9 +54,21 @@ final class CharactersViewController: UIViewController, UISearchBarDelegate {
         view.addSubview(activityIndicator)
         tableView.tableHeaderView = searchBar
 
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         tableView.rowHeight = 80
         tableView.tableFooterView = activityIndicator
         searchBar.delegate = self
+
+        navigationController?.isNavigationBarHidden = true
+    }
+
+    @objc private func didPullToRefresh() {
+        print("start refresh")
+        DispatchQueue.main.async {
+            self.presenter.fetchData()
+            self.tableView.refreshControl?.endRefreshing()
+        }
     }
 
     func setupConstraints() {
@@ -84,9 +98,8 @@ extension CharactersViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
         searchController.isActive = false
         let result: CharactersClientModel = characters[indexPath.row]
-        let rootVC = HeroDetailsViewController(result: result)
-        let navVC = UINavigationController(rootViewController: rootVC)
-        present(navVC, animated: false)
+        let detailsVC = HeroDetailsViewController(model: result, presenter: DetailsPresenter())
+        navigationController?.pushViewController(detailsVC, animated: true)
     }
 
     func tableView(_: UITableView, willDisplay _: UITableViewCell, forRowAt indexPath: IndexPath) {
